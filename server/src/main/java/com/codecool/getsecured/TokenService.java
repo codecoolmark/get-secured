@@ -28,4 +28,27 @@ public class TokenService {
 
         return tokenBuilder.toString();
     }
+
+    public boolean validateToken(String token) {
+        var username = this.extractUsername(token);
+        var hash = this.extractHash(token);
+        return this.passwordEncoder.matches(this.secret + username, hash);
+    }
+
+    public String username(String token) {
+        if (!validateToken(token)) {
+            throw new IllegalArgumentException("Provided token is invalid!");
+        }
+        return this.extractUsername(token);
+    }
+
+    private String extractUsername(String token) {
+        var firstSemicolonIndex = token.indexOf(":");
+        return token.substring(0, firstSemicolonIndex);
+    }
+
+    private String extractHash(String token) {
+        var firstSemicolonIndex = token.indexOf(":");
+        return token.substring(firstSemicolonIndex + 1);
+    }
 }
