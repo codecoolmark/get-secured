@@ -43,12 +43,12 @@ public class TokenService {
     }
 
     private String extractUsername(String token) {
-        var firstSemicolonIndex = token.indexOf(":");
+        var firstSemicolonIndex = token.indexOf(";");
         return token.substring(0, firstSemicolonIndex);
     }
 
     private String extractHash(String token) {
-        var firstSemicolonIndex = token.indexOf(":");
+        var firstSemicolonIndex = token.indexOf(";");
         return token.substring(firstSemicolonIndex + 1);
     }
 }

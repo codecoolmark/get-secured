@@ -17,7 +17,7 @@ export function Login({ setToken }) {
           })
         }).then(response => {
           if (response.ok) {
-            return response.text()
+            return response.json()
           }
     
           return null

@@ -3,7 +3,6 @@ package com.codecool.getsecured.controller;
 import com.codecool.getsecured.TokenService;
 import com.codecool.getsecured.model.User;
 import com.codecool.getsecured.services.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
