@@ -18,7 +18,10 @@ export function Users({ token }) {
     }, [loadUsers]);
 
     return <>
-        {users == null || users.length == undefined ? <p>No users</p> : <>
+        {users == null || users.length == undefined ? <>
+                <p>No users</p>
+                <button type="button" onClick={loadUsers}>Reload</button>
+            </> : <>
             <button type="button" onClick={loadUsers}>Reload</button>
             <table>
                 <thead>

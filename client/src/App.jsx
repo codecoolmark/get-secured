@@ -28,7 +28,7 @@ function App() {
         <Users token={token}></Users>
       </details>
 
-      <img height="150" src={bannerImage} />
+      <img height="200" src={bannerImage} />
     </>
   )
 }
