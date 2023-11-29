@@ -1,13 +1,14 @@
 package com.codecool.getsecured;
 
 import com.codecool.getsecured.model.User;
-import com.codecool.getsecured.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService {
+
+    private static final String separator = ";";
 
     private final String secret;
 
@@ -23,13 +24,16 @@ public class TokenService {
         StringBuilder tokenBuilder = new StringBuilder();
 
         tokenBuilder.append(user.getUsername());
-        tokenBuilder.append(";");
+        tokenBuilder.append(separator);
         tokenBuilder.append(this.passwordEncoder.encode(this.secret + user.getUsername()));
 
         return tokenBuilder.toString();
     }
 
     public boolean validateToken(String token) {
+        if (!token.contains(separator)) {
+            return false;
+        }
         var username = this.extractUsername(token);
         var hash = this.extractHash(token);
         return this.passwordEncoder.matches(this.secret + username, hash);
@@ -43,12 +47,12 @@ public class TokenService {
     }
 
     private String extractUsername(String token) {
-        var firstSemicolonIndex = token.indexOf(";");
+        var firstSemicolonIndex = token.indexOf(separator);
         return token.substring(0, firstSemicolonIndex);
     }
 
     private String extractHash(String token) {
-        var firstSemicolonIndex = token.indexOf(";");
+        var firstSemicolonIndex = token.indexOf(separator);
         return token.substring(firstSemicolonIndex + 1);
     }
 }
