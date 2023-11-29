@@ -1,6 +1,5 @@
 package com.codecool.getsecured.controller;
 
-import com.codecool.getsecured.TokenService;
 import com.codecool.getsecured.model.User;
 import com.codecool.getsecured.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -12,20 +11,12 @@ import java.util.Optional;
 public class UserController {
     private final UserService userServices;
 
-    private final TokenService tokenService;
-
-    public UserController(UserService userService, TokenService tokenService) {
+    public UserController(UserService userService) {
         this.userServices = userService;
-        this.tokenService = tokenService;
     }
 
     @GetMapping("/users")
-    public Collection<User> getUsers(@RequestHeader("Authentication") String token) throws IllegalAccessException {
-
-        if (!this.tokenService.validateToken(token)) {
-            throw new IllegalAccessException("Forbidden");
-        }
-
+    public Collection<User> getUsers() {
         return this.userServices.getAllUsers();
     }
 

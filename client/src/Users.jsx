@@ -6,7 +6,7 @@ export function Users({ token }) {
     const loadUsers = useCallback(() => {
         fetch(new URL("/users", new URL(import.meta.env.VITE_BACKEND_URL)), {
             headers: {
-                "Authentication": token,
+                "Authorization": `Bearer ${token}`,
             }    
         })
         .then(response => response.json())

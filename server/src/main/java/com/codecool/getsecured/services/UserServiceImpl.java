@@ -2,6 +2,9 @@ package com.codecool.getsecured.services;
 
 import com.codecool.getsecured.model.User;
 import com.codecool.getsecured.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +12,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-class UserServiceImpl implements UserService {
+class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -32,9 +35,7 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean validateLogin(User loginData) {
-        var user = this.userRepository.findUserByUsername(loginData.getUsername());
-
-        return this.passwordEncoder.matches(loginData.getPassword(), user.getPassword());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findUserByUsername(username);
     }
 }
